@@ -1,34 +1,29 @@
-import { AutoComplete } from "antd";
+import { Select } from "antd";
 
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { useCities } from "../../hooks/useCities";
+import { useFetchCities } from "../../hooks/useFetchCities";
 import { useNotification } from "../../hooks/useNotification";
+import type { ICoordinate } from "../../models/common.model";
 
 interface ISearchCityProps {
-  setCurrentCoord: Dispatch<
-    SetStateAction<{
-      latitude: string | undefined;
-      longitude: string | undefined;
-    }>
-  >;
+  setCurrentCoord: Dispatch<SetStateAction<ICoordinate>>;
 }
 
 export const SearchCity = ({ setCurrentCoord }: ISearchCityProps) => {
   const [value, setValue] = useState<string>("");
 
-  const onChange = (data: string) => {
+  const onSearch = (data: string) => {
     setValue(data);
     if (data === "") {
       setCurrentCoord({ latitude: undefined, longitude: undefined });
     }
   };
 
-  const onSelect = (option: { value: string; coord: string }) => {
-    const [latitude, longitude] = option.coord.split(",");
-    setCurrentCoord({ latitude, longitude });
+  const onSelect = (option: { value: string; coord: ICoordinate }) => {
+    setCurrentCoord(option.coord);
   };
 
-  const { isError, options } = useCities(value);
+  const { isError, options, isLoading } = useFetchCities(value);
 
   useNotification({
     isShowNotification: isError,
@@ -37,14 +32,16 @@ export const SearchCity = ({ setCurrentCoord }: ISearchCityProps) => {
   });
 
   return (
-    <AutoComplete
+    <Select
+      showSearch
       value={value}
       style={{ width: "100%" }}
-      onChange={onChange}
-      placeholder="Choose city"
+      onSearch={onSearch}
+      placeholder="Enter city"
       options={options}
-      notFoundContent="empty data"
       onSelect={(value, option) => onSelect(option)}
+      loading={isLoading}
+      notFoundContent={null}
     />
   );
 };

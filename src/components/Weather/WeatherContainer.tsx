@@ -1,17 +1,16 @@
 import { useNotification } from "../../hooks/useNotification";
-import { useWeather } from "../../hooks/useWeather";
+import { useFetchWeather } from "../../hooks/useFetchWeather";
+import type { ICoordinate } from "../../models/common.model";
 import { Weather } from "./Weather";
-
-interface IWeatherContainerProps {
-  latitude: string | undefined;
-  longitude: string | undefined;
-}
 
 export const WeatherContainer = ({
   latitude,
   longitude,
-}: IWeatherContainerProps): JSX.Element => {
-  const { isError, data: weatherData } = useWeather({ latitude, longitude });
+}: ICoordinate): JSX.Element => {
+  const { isError, data: weatherData } = useFetchWeather({
+    latitude,
+    longitude,
+  });
 
   useNotification({
     isShowNotification: isError,

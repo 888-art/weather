@@ -1,4 +1,4 @@
-import { TCitiesResponse } from "../models/common.model";
+import type { ICitiesResponse, ICoordinate } from "../models/common.model";
 
 export const debounce = <F extends (...args: any[]) => any>(
   func: F,
@@ -18,9 +18,9 @@ export const debounce = <F extends (...args: any[]) => any>(
 };
 
 export const convertToOptionsFormat = (
-  data: TCitiesResponse[]
-): { value: string; coord: string }[] =>
+  data: ICitiesResponse[]
+): { value: string; coord: ICoordinate }[] =>
   data.map((el) => ({
-    coord: `${el.latitude},${el.longitude}`,
+    coord: { latitude: el.latitude, longitude: el.longitude },
     value: `${el.country}, ${el.region ?? ""}, ${el.city} `,
   }));

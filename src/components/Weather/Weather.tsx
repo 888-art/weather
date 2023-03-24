@@ -1,4 +1,4 @@
-import { IWeatherData } from "../../models/common.model";
+import type { IWeatherData } from "../../models/common.model";
 import styles from "./weather.module.css";
 
 export const Weather = ({

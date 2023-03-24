@@ -1,10 +1,10 @@
-export type TCitiesResponse = Record<string, unknown> & {
+export interface ICitiesResponse {
   city: string;
   latitude: number;
   longitude: number;
   country: string;
   region: string;
-};
+}
 
 interface IWeather {
   description: string;
@@ -31,4 +31,9 @@ export interface IWeatherData {
     temp_min: number;
   };
   visibility: number;
+}
+
+export interface ICoordinate {
+  latitude: number | undefined;
+  longitude: number | undefined;
 }

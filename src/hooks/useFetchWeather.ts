@@ -1,29 +1,22 @@
-import { getWeather } from "./../api/apiService";
+import { getWeather } from "../api/apiService";
 import { useEffect, useState } from "react";
-import { IWeatherData } from "../models/common.model";
-interface IUseWeather {
-  latitude: string | undefined;
-  longitude: string | undefined;
-}
+import type { ICoordinate, IWeatherData } from "../models/common.model";
 
 interface IUseWeatherReturn {
   isError: boolean;
   data: IWeatherData | null;
 }
 
-export const useWeather = ({
+export const useFetchWeather = ({
   latitude,
   longitude,
-}: IUseWeather): IUseWeatherReturn => {
+}: ICoordinate): IUseWeatherReturn => {
   const [isError, setIsError] = useState(false);
   const [data, setData] = useState<IWeatherData | null>(null);
 
   const getCurrentWeather = async () => {
     try {
-      const currentWeather = await getWeather(
-        latitude as string,
-        longitude as string
-      );
+      const currentWeather = await getWeather({ latitude, longitude });
       setData(currentWeather);
       setIsError(false);
     } catch (error) {
