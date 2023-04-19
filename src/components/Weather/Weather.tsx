@@ -1,3 +1,4 @@
+import { getParameters } from "../../helpers/helpers";
 import type { IWeatherData } from "../../models/common.model";
 import styles from "./weather.module.css";
 
@@ -6,18 +7,17 @@ export const Weather = ({
 }: {
   weatherData: IWeatherData | null;
 }): JSX.Element => {
-  const icon = weatherData?.weather?.length
-    ? `https://openweathermap.org/img/wn/${weatherData.weather[0]?.icon}@2x.png`
-    : "";
-
-  const city = weatherData?.name;
-  const description = weatherData?.weather[0]?.description;
-  const main = weatherData?.weather[0]?.main;
-  const temp = weatherData?.main.temp;
-  const feels = weatherData?.main.feels_like;
-  const wind = weatherData?.wind.speed;
-  const humidity = weatherData?.main.humidity;
-  const pressure = weatherData?.main.pressure;
+  const {
+    icon,
+    temp,
+    main,
+    description,
+    feels,
+    wind,
+    humidity,
+    pressure,
+    city,
+  } = getParameters(weatherData);
 
   return (
     <>

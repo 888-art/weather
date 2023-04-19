@@ -1,4 +1,8 @@
-import type { ICitiesResponse, ICoordinate } from "../models/common.model";
+import type {
+  ICitiesResponse,
+  ICoordinate,
+  IWeatherData,
+} from "../models/common.model";
 
 export const debounce = <F extends (...args: any[]) => any>(
   func: F,
@@ -24,3 +28,30 @@ export const convertToOptionsFormat = (
     coord: { latitude: el.latitude, longitude: el.longitude },
     value: `${el.country}, ${el.region ?? ""}, ${el.city} `,
   }));
+
+export const getParameters = (weatherData: IWeatherData | null) => {
+  const icon = weatherData?.weather?.length
+    ? `https://openweathermap.org/img/wn/${weatherData.weather[0]?.icon}@2x.png`
+    : "";
+
+  const city = weatherData?.name;
+  const description = weatherData?.weather[0]?.description;
+  const main = weatherData?.weather[0]?.main;
+  const temp = weatherData?.main.temp;
+  const feels = weatherData?.main.feels_like;
+  const wind = weatherData?.wind.speed;
+  const humidity = weatherData?.main.humidity;
+  const pressure = weatherData?.main.pressure;
+
+  return {
+    city,
+    description,
+    icon,
+    main,
+    temp,
+    feels,
+    wind,
+    humidity,
+    pressure,
+  };
+};
